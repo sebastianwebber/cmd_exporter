@@ -72,15 +72,18 @@ func (collector *CMDCollector) Collect(ch chan<- prometheus.Metric) {
 	cmd := cmdr.Parse(cfg.Command)
 
 	osExec := exec.Command(cmd.Command, cmd.Args...)
+
+	var errMsg string
 	stdoutStderr, err := osExec.CombinedOutput()
 	if err != nil {
 		if exitError, ok := err.(*exec.ExitError); ok {
 			metricValue = exitError.ExitCode()
 		}
+		errMsg = err.Error()
 	}
 
 	prettyOutput := strings.TrimSuffix(string(stdoutStderr), "\n")
-	log.Printf("CMD: %s %v - OUT: %s - EXIT: %d\n", cmd.Command, cmd.Args, prettyOutput, metricValue)
+	log.Printf("CMD: %s %v - OUT: %s - EXIT: %d - ERROR: %s\n", cmd.Command, cmd.Args, prettyOutput, metricValue, errMsg)
 
 	//Write latest value for each metric in the prometheus metric channel.
 	ch <- prometheus.MustNewConstMetric(
