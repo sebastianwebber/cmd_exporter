@@ -98,6 +98,10 @@ func (collector *CMDCollector) Collect(ch chan<- prometheus.Metric) {
 			errMsg = err.Error()
 		}
 
+		if errMsg != "" {
+			metricValue = -1
+		}
+
 		prettyOutput := strings.TrimSuffix(string(stdoutStderr), "\n")
 		log.Printf(
 			"KEY: %s, CMD: %s %v - OUT: %s - EXIT: %d - ERROR: %s\n",
