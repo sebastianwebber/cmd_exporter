@@ -8,7 +8,7 @@ Environment=CONFIG_FILE=/etc/cmd_exporter.yml
 Type=simple
 User=root
 Group=root
-ExecStart="/opt/cmd_exporter/cmd_exporter" --config "${CONFIG_FILE}" ${CMD_OPTIONS}
+ExecStart=/usr/local/bin/cmd_exporter --config "${CONFIG_FILE}" ${CMD_OPTIONS}
 
 [Install]
 WantedBy=multi-user.target
