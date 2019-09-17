@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -16,7 +17,8 @@ import (
 )
 
 var (
-	cfg configFile
+	cfg         configFile
+	cfgLocation string
 )
 
 type configFile struct {
@@ -29,7 +31,10 @@ type configFile struct {
 }
 
 func init() {
-	dat, err := ioutil.ReadFile("cmd_exporter.yml")
+	flag.StringVar(&cfgLocation, "config", "cmd_exporter.yml", "configuration file location")
+	flag.Parse()
+
+	dat, err := ioutil.ReadFile(cfgLocation)
 	if err != nil {
 		log.Fatalf("Error reading file: %v", err)
 	}
@@ -75,7 +80,7 @@ func (collector *CMDCollector) Collect(ch chan<- prometheus.Metric) {
 	}
 
 	prettyOutput := strings.TrimSuffix(string(stdoutStderr), "\n")
-	log.Printf("CMD: %s %v - OUT: %s\n", cmd.Command, cmd.Args, prettyOutput)
+	log.Printf("CMD: %s %v - OUT: %s - EXIT: %d\n", cmd.Command, cmd.Args, prettyOutput, metricValue)
 
 	//Write latest value for each metric in the prometheus metric channel.
 	ch <- prometheus.MustNewConstMetric(
