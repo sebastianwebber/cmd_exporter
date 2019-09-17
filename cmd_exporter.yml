@@ -1,0 +1,7 @@
+listen_address: 'localhost'
+port: 2112
+
+metric_name: timbira_pg_isready
+help_message: pg_isready is cool
+command: |
+  pg_isready -p 5432
