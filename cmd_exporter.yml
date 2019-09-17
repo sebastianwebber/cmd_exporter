@@ -1,9 +1,9 @@
 listen_address: 'localhost'
 port: 2112
 
-metrics_prefix: timbira_cmds_v2
+metrics_prefix: cmd_exporter_prefix
 help_message: basic message goes here
 commands:
-  pg_isready_full_path: /usr/pgsql-11/bin/pg_isready -p 5432
-  pg_isready: pg_isready -p 9999
+  isready_instance1: /usr/pgsql-11/bin/pg_isready -p 9999
+  isready_instance2: pg_isready -p 5432
   cmd2: echo foo
