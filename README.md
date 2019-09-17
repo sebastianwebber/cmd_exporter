@@ -28,20 +28,21 @@ Will generate the metrics below:
 
 Each metric is a [GAUGE](https://prometheus.io/docs/concepts/metric_types/#gauge) that contains:
 * an `output` label with the command output
+* an `error` label with a error message when running the command
 * the value with the `exit code`
 > for instance:
 >```
 > # HELP cmd_exporter_prefix_cmd2 basic message goes here
 > # TYPE cmd_exporter_prefix_cmd2 gauge
-> cmd_exporter_prefix_cmd2{output="foo"} 0
-> 
+> cmd_exporter_prefix_cmd2{error="",output="foo"} 0
+>
 > # HELP cmd_exporter_prefix_isready_instance1 basic message goes here
 > # TYPE cmd_exporter_prefix_isready_instance1 gauge
-> cmd_exporter_prefix_isready_instance1{output=""} 0
-> 
+> cmd_exporter_prefix_isready_instance1{error="fork/exec /usr/pgsql-11/bin/pg_isready: no such file or > directory",output=""} 0
+>
 > # HELP cmd_exporter_prefix_isready_instance2 basic message goes here
 > # TYPE cmd_exporter_prefix_isready_instance2 gauge
-> cmd_exporter_prefix_isready_instance2{output="/tmp:5432 - no response"} 2
+> cmd_exporter_prefix_isready_instance2{error="exit status 2",output="/tmp:5432 - no response"} 2
 > ```
 
 After that configure your prometheus with something like that:

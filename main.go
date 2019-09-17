@@ -62,7 +62,7 @@ func newCMDCollector() *CMDCollector {
 		newDesc := prometheus.NewDesc(
 			newName,
 			cfg.HelpMessage,
-			[]string{"output"},
+			[]string{"output", "error"},
 			nil,
 		)
 		newMetrics[k] = newDesc
@@ -113,7 +113,8 @@ func (collector *CMDCollector) Collect(ch chan<- prometheus.Metric) {
 			collector.metrics[k],
 			prometheus.GaugeValue,
 			float64(metricValue),
-			prettyOutput)
+			prettyOutput,
+			errMsg)
 	}
 
 }
