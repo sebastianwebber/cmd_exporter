@@ -1,0 +1,37 @@
+# .goreleaser.yml
+# Build customization
+builds:
+  - binary: cmd_exporter 
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+
+# Archive customization
+archive:
+  format: tgz
+  replacements:
+    amd64: 64-bit
+
+    darwin: macOS
+  files:
+    - cmd_exporter.yml
+
+
+nfpm:
+  vendor: Internet
+  homepage: https://site.com
+  license: BSD-3-Clause
+
+  maintainer: ME (for now)
+
+  description: runs commands and export data to prometheus
+  # Formats to generate as output
+  formats:
+    - rpm
+    - deb
+  files:
+    "cmd_exporter.yml": "/etc/cmd_exporter.yml"
+    "systemd.service": "/usr/lib/systemd/system/cmd_exporter.service" 
